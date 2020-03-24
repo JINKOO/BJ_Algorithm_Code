@@ -42,7 +42,7 @@ int main()
     //2. test_case만큼 반복
     for (int i = 0; i < test_case; i++)
     {
-        int x1, y1, r1, x2, y2, r2;
+        double x1, y1, r1, x2, y2, r2;
         std::cin >> x1 >> y1 >> r1 >> x2 >> y2 >> r2;
 
         double center_distance = sqrt(abs(x1 - x2) * abs(x1 - x2) + abs(y1 - y2) * abs(y1 - y2));
@@ -67,5 +67,6 @@ int main()
                 std::cout << 0 << "\n";
         }
     }
+    return 0;
 }
     
