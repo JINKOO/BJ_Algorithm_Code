@@ -20,22 +20,35 @@
 */
 
 #include <iostream>
+int SIZE = 1000000;
+
 int main()
 {
-    int M, N = 0;
-    std::cin >> M >> N;
+    //에라토스테네스의 채를 사용한다.
+    int m, n;
+    std::cin >> m >> n;
 
-    for (int num = M; num <= N; num++)
+    //1 ~ 1,000,000숫자에 대하여 true로 초기회
+    bool* num_arr = new bool[SIZE + 1];
+    
+    num_arr[1] = false;
+    for (int i = 2; i <= SIZE; i++)
+        num_arr[i] = true;
+
+    for (int i = 2; i * i <= SIZE; i++)
     {
-        int divided_number = 1, count = 0;
-        while (divided_number <= num)
+        if (num_arr[i])
         {
-            if ((num % divided_number) == 0)
-                count++;
-            divided_number++;
+            for (int j = i * i; j <= SIZE; j += i)
+                num_arr[j] = false;
         }
-        if (count == 2)
-            printf("%d\n", num);
     }
+
+    for (int i = m; i <= n; i++)
+    {
+        if (num_arr[i])
+            std::cout << i << "\n";
+    }
+
     return 0;
 }
