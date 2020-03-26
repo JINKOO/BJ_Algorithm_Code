@@ -56,23 +56,31 @@ int main()
         int even_number = 0;
         std::cin >> even_number;
 
-        int count = 0;
+        int prime_a = 0, prime_b = 0;
+        int k = 0;
+        int min_sub = 0;
+        bool is_first = true;
         for (int j = 2; j <= even_number; j++)
         {
-            if (arr_num[j])
+            k = even_number - j;
+            if (arr_num[j] && arr_num[k])
             {
-                std::cout << j << "\n";
-                count++;
+                if (is_first)
+                {
+                    min_sub = abs(k - j);
+                    is_first = false;
+                }
+
+                if (min_sub >= abs(k - j) && j <= k)
+                {
+                    min_sub = abs(k - j);
+                    prime_a = j;
+                    prime_b = k;
+                }
             }
         }
-
-        std::cout << count << "\n";
-        
-        //2.2 2개의 숫자 선별하기 더해서 입력 받은 짝수가 되도록
-
-        //2.3 이 때, 합으로 표현할 수 있는 경우가 여러개 존재하면, 두 소수의 차이가 최소가 되도록 한다. 
+        std::cout << prime_a << " " << prime_b << "\n";
     }
-
     return 0;
 }
 
