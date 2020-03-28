@@ -16,44 +16,14 @@
      예제 출력 1 >> 1
 */
 
+//가끔은 단순한 방법이 제일 좋다.
+//두 점사이의 거리를 사용하는 것도 좋지만, 안쓰고 하는 방법도 존재.
 #include <iostream>
-
-struct Point
-{
-    int x;
-    int y;
-};
-
+int findMin(int a, int b) { return a <= b ? a : b; }
 int main()
 {
     int x, y, w, h;
     std::cin >> x >> y >> w >> h;
-
-    Point input_point;
-    input_point.x = x;
-    input_point.y = y;
-
-    Point pivot_point[4];
-    pivot_point[0].x = x;
-    pivot_point[0].y = 0;
-
-    pivot_point[1].x = x;
-    pivot_point[1].y = h;
-
-    pivot_point[2].x = 0;
-    pivot_point[2].y = y;
-
-    pivot_point[3].x = w;
-    pivot_point[3].y = y;
-
-    int min = pow(pivot_point[0].x - input_point.x, 2) + pow(pivot_point[0].y - input_point.y, 2);
-    for (int i = 1; i < 4; i++)
-    {
-        int distance = pow(pivot_point[i].x - input_point.x, 2) + pow(pivot_point[i].y - input_point.y, 2);
-        if (min <= distance)
-            min = distance;
-    }
-
-    std::cout << min << "\n";
+    std::cout << findMin(findMin(x, w - x), findMin(y, h - y)) << "\n";
     return 0;
 }
