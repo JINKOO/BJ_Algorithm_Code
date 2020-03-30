@@ -23,8 +23,9 @@
 
 #include <iostream>
 
-void findMidMin(int& mid, int& min, int num2, int num3)
+void findMidMin(int& max, int& mid, int& min, int num1, int num2, int num3)
 {
+    max = num1;
     mid = num2 > num3 ? num2 : num3;
     min = num2 < num3 ? num2 : num3;
 }
@@ -41,24 +42,13 @@ int main()
 
         int max = 0, mid = 0, min = 0;
         if (x > y && x > z)
-        {
-            max = x;
-            findMidMin(mid, min, y, z);
-        }
+            findMidMin(max, mid, min, x, y, z);
 
         else if (y > x && y > z)
-        {
-            max = y;
-            findMidMin(mid, min, x, z);
-        }
+            findMidMin(max, mid, min, y, x, z);
 
         else if (z > x && z > y)
-        {
-            max = z;
-            findMidMin(mid, min, x, y);
-        }
-
-        std::cout << max << ">" << mid << ">" << min << "\n";
+            findMidMin(max, mid, min, z, x, y);
 
         if ((max * max) == (mid * mid) + (min * min))
             std::cout << "right" << "\n";
