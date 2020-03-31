@@ -50,45 +50,30 @@
 
 #include <iostream>
 
-char** star_arr;
-
-void initArr(int N)
+void setSpace(int i, int j, int N)
 {
-    star_arr = new char*[N];
+    if ((i / N) % 3 == 1 && (j / N) % 3 == 1)
+    {
+        std::cout << ' ';
+    }
+    else
+    {
+        if (N / 3 == 0)
+            std::cout << '*';
+        else
+            setSpace(i, j, N / 3);
+    }
+}
+
+void drawStars(int N)
+{
     for (int i = 0; i < N; i++)
     {
-        star_arr[i] = new char[N];
         for (int j = 0; j < N; j++)
         {
-            star_arr[i][j] = '*';
+            setSpace(i, j, N);
         }
-    }
-}
-
-void printStar(int N)
-{
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-            std::cout << star_arr[i][j];
         std::cout << "\n";
-    }
-    std::cout << "\n";
-}
-
-void setSpace(int N)
-{
-    if (N % 3 == 0)
-    {
-        std::cout << "here1 :: " << N << "\n";
-        setSpace(N / 3);
-    }
-
-    std::cout << "here2 :: " << N << "\n";
-    for (int i = N; i < 9; i = i + 3)
-    {
-        for (int j = N; j < 9; j = j + 3)
-            star_arr[i][j] = ' ';
     }
 }
 
@@ -97,10 +82,7 @@ int main()
     int N;
     std::cin >> N;
 
-    initArr(N);
-    printStar(N);
-    setSpace(N);
-    printStar(N);
-
+    drawStars(N);
+ 
     return 0;
 }
