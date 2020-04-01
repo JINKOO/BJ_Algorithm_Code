@@ -40,24 +40,24 @@ int main()
 
     int* card_number = new int[number_of_card];
     for (int i = 0; i < number_of_card; i++)
-    {
         std::cin >> card_number[i];
-    }
 
     int total = 0;
-    int max = card_number[0] + card_number[1] + card_number[2];
-    for (int i = 1; i < number_of_card; i++)
+    int max = 0;
+    for (int i = 0; i < number_of_card - 2; i++)
     {
-        int sub_total = card_number[i - 1] + card_number[i];
-        for (int j = i + 1; j < number_of_card; j++)
+        for (int j = i + 1; j < number_of_card - 1; j++)
         {
-            total = sub_total + card_number[j];
-            std::cout << max << ", " << total << "\n";
-           
+            for (int k = j + 1; k < number_of_card; k++)
+            {
+                total = card_number[i] + card_number[j] + card_number[k];
+                if (total <= M && M - total < M - max)
+                    max = total;
+            }
         }
     }
-    std::cout << max << "\n";
 
+    std::cout << max << "\n";
     return 0;
 }
 
