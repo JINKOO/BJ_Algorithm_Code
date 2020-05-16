@@ -45,77 +45,35 @@
 */
 
 #include <iostream>
+#include <string>
+
+std::string black_first[8] = {
+    "BWBWBWBW",
+    "WBWBWBWB", 
+    "BWBWBWBW", 
+    "WBWBWBWB", 
+    "BWBWBWBW", 
+    "WBWBWBWB", 
+    "BWBWBWBW",
+    "WBWBWBWB"
+};
+
+std::string white_first[8] = {
+    "WBWBWBWB",
+    "BWBWBWBW",
+    "WBWBWBWB",
+    "BWBWBWBW",
+    "WBWBWBWB",
+    "BWBWBWBW",
+    "WBWBWBWB",
+    "BWBWBWBW",
+};
+
 int main()
 {
-    int N, M;
-    std::cin >> N >> M;
-
-    char chess[50][50] = { ' ' };
-
-    std::cout << 10 % 8 << "\n";
-
-    for (int i = 0; i < N ; i++)
-    {
-        for (int j = 0; j < M; j++)
-        {
-            std::cin >> chess[i][j];
-        }
-    }
-
-    ////2. 입력 받기 W인지 B인지 알아보기
-    //for (int i = 0; i < N; i++)
-    //{
-    //    for (int j = 0; j < M; j++)
-    //    {
-    //        std::cout << chess[i][j] << " ";
-    //    }
-    //    std::cout << "\n";
-    //}
-
-    //3. 8*8로 구분 짓기
-    //맨 처음이 W로 시작 할 때.
-    char first = chess[0][0];
-
-    //바꾸기 시전 했으면 true, 아니면 false;
-    int count = 0;
-    if (first == 'B')
-    {
-        for (int i = 0; i + 7< N; i--)
-        {
-            for (int j = 0; j + 7 < M; j--)
-            {
-                if (i % 2 == 0)
-                {
-                    if (j % 2 == 0 && chess[i][j] != first)
-                    {
-                        chess[i][j] = first;
-                        count++;
-                    }
-
-                }
-                else
-                {
-                    if (j % 2 != 0 && chess[i][j] != first)
-                    {
-                        chess[i][j] = first;
-                        count++;
-                    }
-                }
-            }
-        }
-    }
-
-    //맨 처음이 B로 시작 할 때.
-    else
-    {
-        std::cout << "false" << "\n";
-    }
-
-    std::cout << count << "\n";
 
     return 0;
 }
-
 
 
 
