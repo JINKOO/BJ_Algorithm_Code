@@ -21,76 +21,103 @@
 */
 #include <iostream>
 #include <string>
+using namespace std;
 
-class ArrayStack
+class MyStack
 {
 private:
-	int size;
-	int top;
-	int* array;
+    int n;
+    int top;
+    int* arr;
 
 public:
-	ArrayStack(int size)
-	{
-		this->size = size;
-		this->top = -1;
-		this->array = new int[size];
-	}
+    MyStack(int n)
+    {
+        this->n = n;
+        this->top = -1;
+        arr = new int[this->n];
+    }
 
-	~ArrayStack()
-	{
-		std::cout << "~destructor() called" << "\n";
-		delete[] array;
-		array = NULL;
-	}
+    ~MyStack()
+    {
+        delete[] arr;
+        arr = NULL;
+    }
 
 public:
-	void push(int data)
-	{
-		if (!isFull())
-			array[++top] = data;
-	}
+    void push(int x)
+    {
+        if (isFull())
+            return;
+        arr[++top] = x;
+    }
 
-	void pop()
-	{
-		if (!isEmpty())
-			top--;
-		else
-			std::cout << "0" << "\n";
-	}
+    void pop()
+    {
+        if (isEmpty())
+        {
+            cout << -1 << "\n";
+            return;
+        }
+        cout << arr[top--] << "\n";
+    }
 
-	int size() { return this->top + 1;}
+    bool isEmpty()
+    {
+        return top == -1 ? true : false;
+    }
 
-	bool isEmpty() { return this->top == -1 ? true : false; }
+    bool isFull()
+    {
+        return top ==  n - 1? true : false;
+    }
 
-	bool isFull() { return top == this->size ? true : false; }
+    int size()
+    {
+        return this->top + 1;
+    }
 
-	void printElements()
-	{
-		for (int i = top; i >= 0; i--)
-			std::cout << array[i] << "\n";
-		std::cout << "\n";
-	}
+    int getTop()
+    {
+        return top == -1 ? -1 : arr[top];
+    }
 };
-
 
 int main()
 {
-    int N;
-    std::cin >> N;
-    std::cin.clear();
 
-	ArrayStack *stack = new ArrayStack(N);
+    int n;
+    cin >> n;
+    cin.ignore();
 
-    for (int i = 0; i <= N; i++)
+    MyStack *s = new MyStack(n);
+    
+    for (int i = 0; i < n; i++)
     {
-        std::string operation;
-        std::getline(std::cin, operation);
-
+        string operation;
+        getline(cin, operation);
+        if (operation.substr(0, 4) == "push")
+        {
+            string num_str = operation.substr(5, operation.size() - 5);
+            s->push(stoi(num_str));
+        }
+        else if (operation == "pop")
+            s->pop();
+        else if (operation == "size")
+            cout << s->size() << "\n";
+        else if (operation == "empty")
+            cout << s->isEmpty() << "\n";
+        else if (operation == "top")
+            cout << s->getTop() << "\n";
+        else
+        {
+            cout << "Wrong Operation" << "\n";
+            i--;
+        }
     }
 
-	delete stack;
-	return 0;
+    delete s;
+    return 0;
 }
 
 
