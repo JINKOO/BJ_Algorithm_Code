@@ -52,66 +52,69 @@
 #include <iostream>
 using namespace std;
 
-vector<string> solution(vector<string> v)
+string solution(string str)
 {
-    vector<string> answer;
     //
-    cout << v.size() << "\n";
-    for (string str : v)
+    stack<char> s;
+    bool check = false;
+    for (int i = 0; i < str.length(); i++)
     {
-        stack<char> s;
-        string result;
-        for (int j = 0; j < str.size(); j++)
+        /*if (str[i] == '(' || str[i] == ')' || str[i] == '[' || str[i] == ']')
         {
-            if (str[j] == '(' || str[j] == ')' || str[j] == '[' || str[j] == ']')
+            if (s.empty())
+                s.push(str[i]);
+            else
             {
-                if (s.empty())
-                    s.push(str[j]);
+                if (s.top() == '(' && str[i] == ')')
+                    s.pop();
+                else if (s.top() == '[' && str[i] == ']')
+                    s.pop();
                 else
-                {
-                    if (s.top() == '(' && str[j] == ')')
-                        s.pop();
-                    else if (s.top() == '[' && str[j] == ']')
-                        s.pop();
-                    else
-                        s.push(str[j]);
-                }
+                    s.push(str[i]);
+            }
+        }*/
+
+        if (str[i] == '(' || str[i] == '[')
+            s.push(str[i]);
+        else if (str[i] == ')')
+        {
+            if (!s.empty() && s.top() == '(')
+                s.pop();
+            else
+            {
+                check = true;
+                break;
             }
         }
-        s.empty() ? result = "YES" : result = "NO";
-        answer.push_back(result);
+        else if (str[i] == ']')
+        {
+            if (!s.empty() && s.top() == '[')
+                s.pop();
+            else
+            {
+                check = true;
+                break;
+            }
+        }
     }
+    return (!check && s.empty()) ? "yes" : "no";
     //
-    return answer;
 }
 
-void init(string &str, vector<string> &v)
+void printResult(string answer)
 {
-    int start = 0, index;
-    while ((index = str.find('.', start)) != std::string::npos)
-    {
-        string sub_str = str.substr(start, index - start);
-        v.push_back(sub_str);
-        start = index + 1;
-    }
-}
-
-void printResult(const vector<string> &answer)
-{
-    for (string s : answer)
-        cout << s << "\n";
+    cout << answer << "\n";
 }
 
 int main()
 {
-    string long_str = 
-    "So when I die (the [first] I will see in (heaven) is a score list).[first in](first out).Half Moon tonight(At least it is better than no Moon at all].A rope may form)(a trail in a maze.Help(I[m being held prisoner in a fortune cookie factory)].([(([([]) () (())]))]).. .";
-    //getline(cin, long_str);
-
-    vector<string> v;
-    init(long_str, v);
-
-    printResult(solution(v));
-
+    string input_str = "";
+    while (1)
+    {
+        getline(cin, input_str);
+        if (input_str == ".")
+            break;
+        printResult(solution(input_str));
+    }
     return 0;
 }
