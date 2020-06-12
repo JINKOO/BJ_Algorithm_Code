@@ -47,13 +47,21 @@ int getMax(int num1, int num2)
 
 int solution(int n)
 {
+    /*
+     dp[i] = dp[i-1] + cost[i]이지만
+     현재 전까지의 합이 현재 cost[i]보다 작으면
+     cost[i]부터 다시 합하여 간다. 
+     이후 이전의 max와 비교하여 더 큰 값이 정답.
+    */
     dp[1] = cost[1];
-    dp[2] = getMax(dp[1], dp[1] + dp[2]);
-    
-    for (int i = 3; i <= n; i++)
+    int max = dp[1];
+
+    for (int i = 2; i <= n; i++)
     {
         dp[i] = getMax(dp[i-1] + cost[i], cost[i]);
+        max = getMax(max, dp[i]);
     }
+    return max;
 }
 
 int main()
@@ -63,6 +71,8 @@ int main()
 
     for (int i = 1; i <= n; i++)
         cin >> cost[i];
+
+    cout << solution(n) << "\n";
 
     return 0;
 }
