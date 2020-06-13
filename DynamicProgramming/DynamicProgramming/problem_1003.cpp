@@ -1,26 +1,26 @@
 ﻿/*
-  #. [ 피보나치 함수 ] 
-  
+  #. [ 피보나치 함수 ]
+
   #. 문제
      다음 소스는 N번째 피보나치 수를 구하는 C++ 함수이다.
-     
+
      int fibonacci(int n) {
-        if (n == 0) 
+        if (n == 0)
         {
             printf("0");
             return 0;
-        } 
-        else if (n == 1) 
+        }
+        else if (n == 1)
         {
            printf("1");
            return 1;
-        } 
-        else 
+        }
+        else
         {
            return fibonacci(n‐1) + fibonacci(n‐2);
         }
     }
-    
+
     fibonacci(3)을 호출하면 다음과 같은 일이 일어난다.
     1. fibonacci(3)은 fibonacci(2)와 fibonacci(1) (첫 번째 호출)을 호출한다.
     2. fibonacci(2)는 fibonacci(1) (두 번째 호출)과 fibonacci(0)을 호출한다.
@@ -29,7 +29,7 @@
     5. fibonacci(2)는 fibonacci(1)과 fibonacci(0)의 결과를 얻고, 1을 리턴한다.
     6. 첫 번째 호출한 fibonacci(1)은 1을 출력하고, 1을 리턴한다.
     7. fibonacci(3)은 fibonacci(2)와 fibonacci(1)의 결과를 얻고, 2를 리턴한다.
-    
+
     1은 2번 출력되고, 0은 1번 출력된다. N이 주어졌을 때, fibonacci(N)을 호출했을 때, 0과 1이 각각 몇 번 출력되는지 구하는 프로그램을 작성하시오.
 
   #. 입력
@@ -51,40 +51,74 @@
 */
 
 #include <iostream>
-#include <vector>
 using namespace std;
 
-int dp[41];
+int dp[41][2];
 
-int solution(int n)
+//int dp[41];
+
+/*
+  여기서는 void타입으로 함.
+  vector를 사용하여 return할 수 있지만 출력만 하면 되기 때문에
+  solution함수에서 출력.
+*/
+void solution(int n)
 {
-    if (n == 0)
+    //base case
+    // n = 0 일 때 ::  0의 개수 1 / 1의 개수 0
+    dp[0][0] = 1;
+    dp[0][1] = 0;
+    dp[1][0] = 0;
+    dp[1][1] = 1;
+
+    //bottom up방식
+    for (int i = 2; i <= n; i++)
     {
-        dp[0] = 0;
-        return 0;
+        for (int j = 0; j < 2; j++)
+            dp[i][j] = dp[i - 1][j] + dp[i - 2][j];
     }
-    if (n == 1)
-    {
-        dp[1] = 1;
-        return 1;
-    }
-    if (dp[n] != 0)
-        return dp[n];
-    else
-        return dp[n] = solution(n - 1) + solution(n - 2);
+
+    cout << dp[n][0] << " " << dp[n][1] << "\n";
 }
+
+
+//int solution(int n)
+//{
+//    if (n == 0)
+//    {
+//        dp[0] = 0;
+//        return 0;
+//    }
+//    if (n == 1)
+//    {
+//        dp[1] = 1;
+//        return 1;
+//    }
+//    if (dp[n] != 0)
+//        return dp[n];
+//    else
+//        return dp[n] = solution(n - 2) + solution(n - 1);
+//}
 
 int main()
 {
+    int T;
+    cin >> T;
 
-    int n;
-    cin >> n;
-    
-    for (int i = 0; i < n; i++)
+    //solution 1
+    for (int i = 0; i < T; i++)
     {
         int num;
         cin >> num;
-        
+        solution(num);
+    }
+
+    //solution 2
+    /*for (int i = 0; i < T; i++)
+    {
+        int num;
+        cin >> num;
+
         if (num == 0)
             cout << 1 << " " << 0 << "\n";
         else if (num == 1)
@@ -94,6 +128,7 @@ int main()
             solution(num);
             cout << dp[num - 1] << " " << dp[num] << "\n";
         }
-    }
+    }*/
+
     return 0;
 }
