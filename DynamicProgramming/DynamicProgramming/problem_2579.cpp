@@ -1,5 +1,6 @@
 /*
-  #. [ 계단 오르기 ]
+  #. [ 계단 오르기 ] cf) 와인 시식 문제랑 다른점
+
   #. 문제
 	 계단 오르기 게임은 계단 아래 시작점부터 계단 꼭대기에 위치한 도착점까지 가는 게임이다.
 	 <그림 1>과 같이 각각의 계단에는 일정한 점수가 쓰여 있는데 계단을 밟으면 그 계단에 쓰여 있는 점수를 얻게 된다.
@@ -38,3 +39,60 @@
   #. 예제 출력 1
 	 75
 */
+#include <iostream>
+using namespace std;
+
+int dp[301];
+int cost[301];
+
+int getMax(int num1, int num2)
+{
+	return num1 > num2 ? num1 : num2;
+}
+
+int solution(int n)
+{
+	//1. base case
+	dp[1] = cost[1];
+	dp[2] = cost[1] + cost[2];
+
+	//2. bottom up방식
+	/*
+	  마지막 계단은 반드시 밟아야 하고, 연속된 3계단은 밟을 수 없다.
+	  '와인 시식'문제에서는 마지막 와인 반드시 선택해야 한다는 조건 없음
+	*/
+	for (int i = 3; i <= n; i++)
+		dp[i] = getMax(dp[i - 2] + cost[i], dp[i - 3] + cost[i - 1] + cost[i]);
+
+	return dp[n];
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+
+	for (int i = 1; i <= n; i++)
+		cin >> cost[i];
+
+	cout << solution(n) << "\n";
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -32,3 +32,46 @@
   #. 예제 출력 1
      33
 */
+
+#include <iostream>
+using namespace std;
+
+int dp[10001];
+int cost[10001];
+
+int getMax(int num1, int num2)
+{
+    return num1 > num2 ? num1 : num2;
+}
+
+int solution(int n)
+{
+    //1. base case
+    dp[1] = cost[1];
+    dp[2] = cost[1] + cost[2];
+
+    //2. bottom-up방식
+    for (int i = 3; i <= n; i++)
+    {
+        //연속 3잔은 마시지 못한다.
+        dp[i] = getMax(dp[i - 2] + cost[i], dp[i - 3] + cost[i - 1] + cost[i]);
+        //이전 dp값이 더 큰 경우가 존재 한다.(마지막 잔 마시지 않았을 경우)
+        //6 10 13 1인 경우
+        dp[i] = getMax(dp[i - 1], dp[i]);
+    }
+
+    return dp[n];
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+
+    for (int i = 1; i <= n; i++)
+        cin >> cost[i];
+
+    cout << solution(n) << "\n";
+
+    return 0;
+}
