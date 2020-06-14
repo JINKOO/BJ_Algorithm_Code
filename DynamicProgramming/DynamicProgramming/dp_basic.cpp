@@ -14,6 +14,13 @@
  
   #. DP를 사용하면 O(n)으로 줄일 수 있다.
 
+  
+  #. 좁은 의미의 DP는 Memoization과 구별된다.
+      - Memoization에서는 recursion이 기본(top-down방식)
+     
+     넓은 의미로 DP는 Memoization을 포함한다.
+      - bottom-up방식을 선호한다. recursion은 많은 overhead.
+
 */
 
 #include <iostream>
