@@ -65,7 +65,7 @@ int main()
 {
     int n;
     cin >> n;
-
+ 
     vector<int> v(n);
     init(v);
     cout << solution(v) << "\n";

@@ -27,12 +27,31 @@
 #include <iostream>
 using namespace std;
 
+int solution(int n, int m, int k)
+{
+    int answer = 0;
+    //
+    //remain에서 여2 남1로 팀을 짜는 것이다.
+    int remain = n + m - k;
+    //여학생은 2명씩, 남학생은 1명씩 줄여나간다.
+    //남은 학생 remain이 3이하이면 더이상 팀을 만들 수 없다. 
+    while (n >= 2 && m >= 1 && remain >= 3)
+    {
+        n = n - 2;
+        m = m - 1;
+        remain = remain - 3;
+        answer++;
+    }
+    //
+    return answer;
+}
+
 int main()
 {
     int n, m, k;
-    cin >> n, m, k;
+    cin >> n >> m >> k;
 
-
+    cout << solution(n, m, k) << "\n";
 
     return 0;
 }
