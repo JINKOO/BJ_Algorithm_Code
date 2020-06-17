@@ -1,5 +1,6 @@
 /*
-  #. [ 기타줄 분류 ]
+  #. [백준 :: #1049_기타줄 ]
+
   #. 문제
      Day Of Mourning의 기타리스트 강토가 사용하는 기타에서 N개의 줄이 끊어졌다.
      따라서 새로운 줄을 사거나 교체해야 한다. 강토는 되도록이면 돈을 적게 쓰려고 한다. 
@@ -44,25 +45,33 @@
 #include <algorithm>
 using namespace std;
 
-int solution(int n, vector<pair<int, int>> v)
+int getMin(int num1, int num2)
+{
+    return num1 < num2 ? num1 : num2;
+}
+
+int solution(int n, vector<int> package, vector<int> each)
 {
     int answer = 0;
     //
-    sort(v.begin(), v.end());
+    /*
+      1. greedy한 접근
+         - package로만 구매
+         - 낱개로만 구매
+         - package + 낱개(서로 다른 브랜드 교차 허용)
+       어차피 가격의 최솟값을 구하는 것이므로 
+       vector<int> package 
+       vector<int> each 
+       각각 오름 차순 정렬.
+       각 첫번째 요소가 가격의 최솟값이다. 이 후 3개의 조건에서 최솟값을 구한다.
+       '서로 다른 브랜드 교차의 허용'이 핵심이니까 굳이 vector<pair<int, int>>로 안해도 됨.
+    */
+    sort(package.begin(), package.end());
+    sort(each.begin(), each.end());
 
-    for (int i = 0; i < v.size(); i++)
-    {
-        int min = v[i].first;
-        if (n <= 6)
-        {
-            if (min >= v[i].second * n)
-                min = v[i].second * n;
-        }
-        else
-        {
-
-        }
-    }
+    int group = n / 6 + 1;
+    answer = getMin(package[0] * group, each[0] * n);
+    answer = getMin(answer, package[0] * (group - 1) + each[0] * (n % 6));
     //
     return answer;
 }
@@ -72,16 +81,17 @@ int main()
     int N, M;
     cin >> N >> M;
 
-    vector <pair<int, int>> price;
+    vector<int> package, each;
 
     for (int i = 0; i < M; i++)
     {
         int p1, p2;
         cin >> p1 >> p2;
-        price.push_back(make_pair(p1, p2));
+        package.push_back(p1);
+        each.push_back(p2);
     }
 
-    cout << solution(N, price) << "\n";
+    cout << solution(N, package, each) << "\n";
 
     return 0;
 }
