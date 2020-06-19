@@ -42,22 +42,101 @@
 
 #include <iostream>
 #include <vector>
-#include <stack>
 #include <string>
 using namespace std;
 
-void minSolution(string str)
+vector<int> minSolution(string str)
 {
+    vector<int> min_answer(str.length() + 1);
+    //
+    //pivot_index의 역할 :: min_answer에서 bottom값을 넣을 자리
+    int bottom = 0, pivot_index = 0;
 
+    /*
+      3. Greedy한 접근 방식으로 min인 경우 min_answer[0] = 0
+         이 후, min은 1씩 증가한다.(그 다음 최솟값)
+    */
+    min_answer[0] = bottom;
+    for (int i = 0; i < str.length(); i++)
+    {
+        /*
+          4. max인 경우와 반대로
+            > 인 경우
+            - 현재 부등호 index + 1부터 pivot_index까지 한 칸씩 밀고(덮어 씌우기)
+            - pivot_index자리에 그 다음 최솟값(++bottom) 넣는다. 
+
+            < 인 경우
+            - min_answer[현재 부등호 index + 1]에 그 다음 최솟값 넣는다.
+            - pivot_index값 조정.
+        */
+        if (str[i] == '>')
+        {
+            for (int j = i + 1; j > pivot_index; j--)
+            {
+                min_answer[j] = min_answer[j-1];
+            }
+            min_answer[pivot_index] = ++bottom;
+        }
+        else
+        {
+            min_answer[i + 1] = ++bottom;
+            pivot_index = i + 1;
+        }
+    }
+    //
+    return min_answer;
 }
 
-void maxSolution(string str)
+vector<int> maxSolution(string str)
 {
     //
-    vector<int> max_val(str.length() + 1);
-
+    vector<int> max_answer(str.length() + 1);
+   
+    //pivot_index의 역할 :: max_answer에서 top값을 넣을 자리
+    int top = 9, pivot_index = 0;
     
+    /*
+      1. Greedy한 접근 방식으로 max인 경우 max_answer[0] = 9
+         이 후, top은 -1씩 줄어든다.(그 다음 최댓값)
+    */
+    max_answer[0] = top;
+    for (int i = 0; i < str.length(); i++)
+    {
+        /*
+          2. < 인 경우,
+             - 현재 부등호 index+1 부터 pivot_index전 까지 한 칸씩 밀고(덮어 씌우기)
+             - 다음 최댓값(--top)을 pivot_index에 넣는다. 
+
+             > 인 경우,
+             - max_index[현재 부등호 index+1]에 다음 최댓값을 넣는다.
+             - pivot_index값 조정한다. (+1)
+        */
+        if (str[i] == '<')
+        {
+            for (int j = i + 1; j > pivot_index ; j--)
+            {
+                max_answer[j] = max_answer[j-1];
+            }
+            
+            max_answer[pivot_index] = --top;
+        }
+        else
+        {
+            max_answer[i + 1] = --top;
+            pivot_index = i + 1;
+        }
+    }
     //
+    return max_answer;
+}
+
+void printResult(vector<int> answer)
+{
+    //
+    string str_answer = "";
+    for (int e : answer)
+        str_answer += to_string(e);
+    cout << str_answer << "\n";
 }
 
 int main()
@@ -73,7 +152,8 @@ int main()
         str += c;
     }
 
-    maxSolution(str);
+    printResult(maxSolution(str));
+    printResult(minSolution(str));
 
     return 0;
 }
