@@ -36,21 +36,7 @@ int solution(int n, int m)
 {
     int answer = 0;
     //
-    if (n >= 3 && m >= 3)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < m; j++)
-            {
-
-            }
-        }
-    }
-
-    else
-    {
-        answer = -1;
-    }
+    
     //
     return answer;
 }
