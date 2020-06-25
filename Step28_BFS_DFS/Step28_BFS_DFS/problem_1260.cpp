@@ -60,9 +60,10 @@ void dfs(int start, int n)
 {
     if (check2[start])
         return;
-    check2[start] = true;
 
+    check2[start] = true;
     cout << start << " ";
+
     for (int i = 1; i <= n; i++)
     {
         if (arr_data[start][i] != 0 && check2[i] != 1)
