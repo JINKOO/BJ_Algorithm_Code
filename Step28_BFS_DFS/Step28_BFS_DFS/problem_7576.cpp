@@ -1,5 +1,5 @@
 /*
-  #. [ 토마토 ]
+  #. [ 토마토_7576 ]
   
   #. 문제
      철수의 토마토 농장에서는 토마토를 보관하는 큰 창고를 가지고 있다. 
@@ -72,7 +72,6 @@
   #. 예제 출력 5 
      0
 */
-
 #include <iostream>
 #include <queue>
 using namespace std;
@@ -83,48 +82,87 @@ int check[1000][1000];
 int di[4] = { -1, 0, 1, 0 };
 int dj[4] = { 0,-1, 0, 1 };
 
+/*
+   #. 접근법
+   - 최소의 시간을 구하는 것 ~= 최단 경로 문제 ==> BFS로 푼다.
+   - BFS로 푼다는 것은 알았음.
+   - but여기서 핵심은, 최초의 시작 위치가 1개가 아니라, 1개 이상이라는 것이다.
+     queue에서 한 번 꺼낼 때, 꺼낸 위치가 1개이상일 수 있고, 이 위치'들'에서 상하좌우 탐색 각각 해야한다.
+     지금까지의 문제에서는 시작 점이 1개였다.
+     즉, 
+     1. 시작 점이 1개이상일 때의 처리와, 
+     2. 해당 위치들에서 상하좌우 탐색하는 것을 어떻게 구현할지가 
+     관건이었다.
+
+     기본적인 BFS뼈대는 같다.
+*/
 int bfs(vector<pair<int, int>> first_location, int n, int m)
 {
     int answer = 0;
+    /*
+      0. 시작점이 1개 이상일 경우, 각 위치에서 동시에 상하좌우를 탐색하여 
+         '하루'동안 익어진 토마토 위치를 저장 해야한다. 
+         이 '하루'는 한 cycle이 되고, 
+         '하루'동안 익어진 토마토의 위치는 1개 이상이기 때문에 queue를 다음과 같이 생성한다. 
+    */
     queue<vector<pair<int, int>>> q;
     
-    //0. 첫 번째 요소 삽입하고 방문 처리.
+    //1. 첫 번째 시작 위치 queue에 삽입하고, 방문처리
     q.push(first_location);
     for (int i = 0; i < first_location.size(); i++)
         check[first_location[i].first][first_location[i].second] = true;
 
     while (!q.empty())
     {
-        //1. queue에서 꺼내고 각 위치에서 상하 좌우 탐색
+        /*
+          2. queue에서 하나의 vector하나 꺼낸다.
+             여기서 하나의 vector에는 하루 동안 익어진 1개 이상의 토마토 위치가 저장 되어 있다.
+        */
         vector<pair<int, int>> v = q.front();
         q.pop();
 
+        // 3. '하루' 동안 익어진 토마토들의 위치를 삽입 할 vector선언. 이후 이 vector를 queue에 삽입한다.
         vector<pair<int, int>> one_day_ripe_tomato; 
+
+        // 4. '하루' 동안 익어진 토마토들이 있는지 체크. 있다면 answer++된다. 
         bool isRipe = false;
+
+        // 5. queue에서 꺼낸, vector안에 있는 각 토마토 위치에서 각각 탐색해야 한다.
         for (int i = 0; i < v.size(); i++)
         {
             for (int k = 0; k < 4; k++)
             {
+                //5.1 위치 갱신 하고,
                 int next_i = v[i].first + di[k];
                 int next_j = v[i].second + dj[k];
 
+                //5.2 각 상하 좌우로 갱신한 위치가 범위 안에 있고,
                 if (next_i >= 0 && next_i < n && next_j >= 0 && next_j < m)
                 {
+                    //5.3 그 위치가 덜익은 토마토이고, 방문하지 않은 위치이면,
                     if (tomato[next_i][next_j] == 0 && check[next_i][next_j] == false)
                     {
+                        //5.4 토마토를 익은 토마토로 변경하고,
                         tomato[next_i][next_j] = 1;
+                        //5.5 방문 처리,
                         check[next_i][next_j] = true;
+                        //5.6 익은 토마토로 변경된 위치가 있으므로 true로 바꾸고,
                         isRipe = true;
+                        //5.7 익은 토마토로 변경된 위치를 vector에 삽입한다. 이후 queue에 삽입 할 것임.
                         one_day_ripe_tomato.push_back(make_pair(next_i, next_j));
                     }
                 }
             }
         }
+        //6. 하루 동안, 익어진 토마토가 1개라도 존재한다면, queue에 삽입한다.
         if (one_day_ripe_tomato.size() != 0)
             q.push(one_day_ripe_tomato);
+
+        //7. 하루 동안, 익어진 토마토가 1개라도 존재한다면 일수++.
         if (isRipe)
             answer++;
     }
+
     return answer;
 }
 
@@ -133,23 +171,31 @@ int main()
     int m, n;
     cin >> m >> n;
 
+    //0. 토마토가 1인 좌표를 vector를 사용하여 삽입한다.(익은 토마토 위치가 1개 이상 일 수 있기 때문)
     vector<pair<int, int>> first_tomato_location;
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
         {
+            //0.1 입력 받고,
             cin >> tomato[i][j];
+            //0.2 익은 토마토가 있는 위치는 first_tomato_location에 삽입.
             if (tomato[i][j] == 1)
                 first_tomato_location.push_back(make_pair(i, j));
         }
     }
 
+    //1. bfs시작 위치'들'이 저장된 vector 넘긴다.
+    //BFS수행.
     int result = bfs(first_tomato_location, n, m);
+    
+    //2. 모두 익었다면, 비어 있는 곳 -1을 제외한 모든 곳이 1이어야 한다.
     bool isAllRipe = true;
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
         {
+            //2.1 한 곳이라도 덜 익은 토마토가 존재한다면, 벽에 가로막힌 부분이 있다는 것임.
             if (tomato[i][j] == 0)
             {
                 isAllRipe = false;
@@ -158,6 +204,7 @@ int main()
         }
     }
 
+    //3. 정답 출력.
     if (isAllRipe)
         cout << result << "\n";
     else
@@ -165,16 +212,3 @@ int main()
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
