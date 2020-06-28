@@ -202,6 +202,8 @@ int main()
                 break;
             }
         }
+        if (!isAllRipe)
+            break;
     }
 
     //3. 정답 출력.
