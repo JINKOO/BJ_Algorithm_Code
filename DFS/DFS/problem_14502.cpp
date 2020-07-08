@@ -112,8 +112,6 @@ int check[8][8];
 int di[4] = { -1, 0, 1, 0 };
 int dj[4] = { 0, -1, 0, 1 };
 
-int zero_count = 999999999;
-
 void mapCopy(int (*temp)[8], int (*origin)[8])
 {
     for (int i = 0; i < N; i++)
@@ -137,6 +135,7 @@ void dfs(int (*virus)[8], int curr_i, int curr_j)
 
         if (next_i >= 0 && next_i < N && next_j >= 0 && next_j < M)
         {
+            //!= 1이 신의 한수 였다... 초반에 == 0인 경우만 했더니 안됐음..
             if (virus[next_i][next_j] != 1 && check[next_i][next_j] == false)
             {
                 virus[next_i][next_j] = 2;
@@ -191,8 +190,6 @@ void makeWall(int count)
                 }
             }
         }
-
-
         return;
     }
 
