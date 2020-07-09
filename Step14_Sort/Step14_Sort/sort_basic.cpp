@@ -83,7 +83,7 @@ void insertion_sort(vector<int> v)
 		int j = i;
 		//왼쪽이 정렬되어있는 상태를 만났을 때 까지,
 		//즉 자신보다 작은 값 다음 위치가 삽입될 위치이다. 
-		while (v[j] < v[j - 1])
+		while (j > 0 && v[j] < v[j - 1])
 		{
 			swap(v[j], v[j - 1]);
 			j--;
