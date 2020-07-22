@@ -1,4 +1,3 @@
-package problem_2468;
 /*
  * #. [ 백준 2468_안전 영역 Silver I ]
   
@@ -47,6 +46,8 @@ package problem_2468;
      아무 지역도 물에 잠기지 않을 수도 있다.
  */
 
+package problem_2468;
+
 import java.util.Scanner;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -61,7 +62,7 @@ class Pair {
 	}
 }
 
-public class Solution {
+public class Main {
 
 	private int n;
 	private int[][] map;
@@ -69,7 +70,7 @@ public class Solution {
 	private int[] di = { -1, 0, 1, 0};
 	private int[] dj = { 0, -1, 0, 1};
 	
-	public Solution()
+	public Main()
 	{
 		this.map = new int[100][100];
 		this.check = new boolean[100][100];
@@ -140,7 +141,7 @@ public class Solution {
 	
 	public static void main(String[] args) {
 		
-		Solution sol = new Solution();
+		Main sol = new Main();
 		
 		int answer = sol.solution();
 		System.out.println(answer);
