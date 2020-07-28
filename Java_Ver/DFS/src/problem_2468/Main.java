@@ -20,7 +20,7 @@ public class Main {
 	}
 	
 	public int init() throws IOException {
-		//1. Scanner class
+		//1. 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		//2. 
@@ -28,8 +28,8 @@ public class Main {
 		this.n = Integer.parseInt(line);
 		
 		
-		//3. map�� �� ���� ���� �ʱ�ȭ. �̶�, map�� ���ҿ��� ���� ū ���� ã�´�.
-		//   BFS���� �� ��, max���Ĵ� ������ ��� ���� ���Ƿ� ���������� ũ��� �׻� 1�̴�.
+		//3.
+		//   
 		int max = 0;
 		for(int i = 0; i < n; i++) {
 			String str = br.readLine();
@@ -77,7 +77,7 @@ public class Main {
 					}
 				}
 			}
-			//h�� ���� Ž���� ���� �� ����, check�迭 �ʱ�ȭ.
+			//h
 			check = new boolean[n][n];
 			if(answer < safety_zone)
 				answer = safety_zone;
