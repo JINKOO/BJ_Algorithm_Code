@@ -35,6 +35,20 @@
     #. 힌트
        802cm 랜선에서 4개, 743cm 랜선에서 3개, 457cm 랜선에서 2개, 539cm 랜선에서 2개를 잘라내 모두 11개를 만들 수 있다.
 */
+/*
+    #. 풀이법.
+       - 이분 탐색을 활용해야 한다.랜선의 길이는 2의 31승 - 1보다 작은 값이므로 long long을 사용해야한다.
+       - low, max가 필요한다.
+       - k만큼의 랜선 중 가장 최댓값을 구하고, max가 된다.
+         1 ~ max에서 이분 탐색을 시작한다.
+         mid = (low + max) / 2이다.
+         이 mid값이 랜선의 길이를 모두 같게 하는 값이고, 랜선의 개수를 구한다.
+         랜선의 개수 >= n :: low = mid + 1 즉, 길이를 늘려도 된다.
+         랜선의 개수 < n  :: high = mid - 1 즉, 길이를 줄여야 한다.
+
+         랜선의 개수 >= n일 때, 정답의 후보가 있으므로, 후보 중 랜선의 길이가 가장 큰 값을 구한다.
+
+*/
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -52,6 +66,29 @@ int main()
         cin >> lines[i];
 
     sort(lines, lines + k, less<int>());
+
+    int low = 1;
+    int max = lines[k - 1];
+
+    int result = 0;
+    while (low <= max)
+    {
+        int mid = (low + max) / 2;
+        int count = 0;
+
+        for (int i = 0; i < k; i++)
+            count +=(lines[i] / mid);
+        
+        if (count >= n)
+        {
+            if (result < mid)
+                result = mid;
+            low = mid + 1;
+        }
+        else
+            max = mid - 1;
+    }
+    cout << result << "\n";
 
     return 0;
 }
