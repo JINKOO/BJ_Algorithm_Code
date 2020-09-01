@@ -8,22 +8,18 @@ int answer = 0;
 
 void dfs(int index, int sum)
 {
-	if (sum == S)
-	{
-		answer++;
+	//cost의 모든 원소를 돌았다면 return
+	if (index == N)
 		return;
-	}
 
-	for (int i = index; i < N; i++)
-	{
-		if (!check[i])
-		{
-			check[i] = true;
-			dfs(i + 1, sum + numbers[i]);
-			check[i] = false;
-		}
-	}
+	//부분 수열의 합, 즉 현재원소까지의 합이 S이면,
+	if (sum + numbers[index] == S)
+		answer++;
 
+	//현재 원소 합하지 않는 경우,
+	dfs(index + 1, sum);
+	//현재 원소 합하는 경우
+	dfs(index + 1, sum + numbers[index]);
 }
 
 int main()
@@ -35,11 +31,7 @@ int main()
 	for (int i = 0; i < N; i++)
 		cin >> numbers[i];
 
-	for (int i = 0; i < N; i++)
-	{
-		dfs(i, 0);
-		memset(check, false, sizeof(check));
-	}
+	dfs(0, 0);
 
 	cout << answer << "\n";
 
