@@ -49,46 +49,55 @@
          랜선의 개수 >= n일 때, 정답의 후보가 있으므로, 후보 중 랜선의 길이가 가장 큰 값을 구한다.
 
 */
+
 #include <iostream>
 #include <algorithm>
 using namespace std;
+typedef long long ll;
 
-int lines[1000000];
+ll line[10000];
+int K, N;
 
 int main()
 {
+    ll answer = 0;
+
     cin.tie(0);
     cin.sync_with_stdio(0);
 
-    int k, n;
-    cin >> k >> n;
-    for (int i = 0; i < k; i++)
-        cin >> lines[i];
+    cin >> K >> N;
+    for (int i = 0; i < K; i++)
+        cin >> line[i];
 
-    sort(lines, lines + k, less<int>());
+    //오름차순 정렬
+    sort(line, line + K);
 
-    int low = 1;
-    int max = lines[k - 1];
+    ll low = 1;
+    ll high = *max_element(line, line + K);
 
-    int result = 0;
-    while (low <= max)
+    while (low <= high)
     {
-        int mid = (low + max) / 2;
-        int count = 0;
-
-        for (int i = 0; i < k; i++)
-            count +=(lines[i] / mid);
+        ll mid = (low + high) / 2;
+        int total = 0;
         
-        if (count >= n)
+        for (int i = 0; i < K; i++)
         {
-            if (result < mid)
-                result = mid;
+            if (line[i] >= mid)
+                total += (line[i] / mid);
+        }
+
+        if (total >= N)
+        {
+            if (answer < mid)
+                answer = mid;
             low = mid + 1;
         }
+
         else
-            max = mid - 1;
+            high = mid - 1;
     }
-    cout << result << "\n";
+
+    cout << answer << "\n";
 
     return 0;
 }

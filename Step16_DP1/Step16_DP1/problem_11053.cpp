@@ -61,6 +61,7 @@ int solution(int n)
 	
 	for (int i = 0; i <= n; i++)
 	{
+		cout << dp[i] << " ";
 		if (answer < dp[i])
 			answer = dp[i];
 	}
