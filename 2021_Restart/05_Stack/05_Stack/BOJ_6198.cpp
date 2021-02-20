@@ -1,6 +1,7 @@
 // https://www.acmicpc.net/problem/6198
 
 // 여려움...
+// 아직 이해 못함... 2021.02.16
 
 #include <iostream>
 #include <stack>
@@ -21,7 +22,7 @@ int main()
 
 	stack<int> s;
 	vector<int> temp;
-	int answer = 0;
+	long long answer = 0;
 
 	for (int i = 0; i < buildings.size(); i++)
 	{
@@ -34,7 +35,7 @@ int main()
 
 	for (auto t : temp)
 	{
-		cout << t << "\n";
+		//cout << t << "\n";
 		answer += t;
 	}
 
